@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 
 from globals import *
 
-def init(v):
+def init(v, lamb):
     # initialize component with a vertex
     comp = nx.Graph.copy(G.subgraph([v]))
     comp.state = ACTIVE
-    comp.potential = LAMBDA
+    comp.potential = lamb
     return comp
 
 def merge(u, v, comp_u, comp_v):
@@ -26,7 +26,7 @@ def find(v, comp_list):
         if comp.has_node(v):
             return comp
 
-def cut(comp):
+def cut(comp, G):
     # compute the cut of comp in G
     edges = []
     for (u,v) in G.edges:
@@ -39,6 +39,10 @@ def print_comp(comp):
     print("state: ", comp.state)
     print("potential: ", comp.potential)
     print("adj list: ", comp.adj)
+
+def contain(comp, G):
+    # check if G contains comp
+    return nx.is_isomorphic(comp, nx.intersection(comp, G))
 
 # # TEST init
 # components = [None] * 10
@@ -57,3 +61,15 @@ def print_comp(comp):
 
 # print(G.adj)
 # print(cut(components[0]))
+
+# # TEST contain
+# G1 = nx.Graph()
+# G1.add_node(0)
+# G1.add_node(1)
+# G1.add_node(2)
+# G1.add_edge(1,2)
+# G2 = nx.Graph()
+# G2.add_node(1)
+# G2.add_node(2)
+# G2.add_edge(1,2)
+# print(contain(G1, G2))

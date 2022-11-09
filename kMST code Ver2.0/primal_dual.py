@@ -1,30 +1,37 @@
 from globals import *
 import component
 
-global idx
-global comp_list
+def print_comp_list(idx, comp_list):
+    # print the adj list of current components
+    for i in range(len(comp_list)):
+        comp = comp_list[i]
+        # if i != idx[list(comp.nodes)[0]]:
+        #     continue
+        component.print_comp(comp)
+        print()
 
-def print_comp_list():
+def plot_comp_list(idx, comp_list):
+    # plot the current components
+    H = nx.Graph()
     for i in range(len(comp_list)):
         comp = comp_list[i]
         if i != idx[list(comp.nodes)[0]]:
             continue
-        component.print_comp(comp)
-        print()
+        
+        H = nx.disjoint_union(H, comp_list[i])
+    plot_graph(H)
 
-def primal_dual():
+def primal_dual(lamb):
     # idx[v] maintains the index of thecomponent that v is in
-    global idx
     idx = [None] * len(G) 
     
     # the list of all components
-    global comp_list
     comp_list = []
 
     # initialize
     for v in G:
         idx[v] = v
-        comp_list += [component.init(v)]
+        comp_list += [component.init(v, lamb)]
     
     # TEST init
     # for i in range(len(comp_list)):
@@ -37,7 +44,8 @@ def primal_dual():
     num_active = len(G)
     while num_active != 0:
         # TEST component list
-        print_comp_list()
+        # print_comp_list(idx, comp_list)
+        # plot_comp_list(idx, comp_list)
         
         # compute next set event
         t_next_set = INF
@@ -46,7 +54,7 @@ def primal_dual():
             comp = comp_list[i]
             
             # skip already neutral componenets
-            if comp.potential == 0:
+            if comp.state == NEUTRAL:
                 continue
             
             # skip merged components
@@ -61,9 +69,9 @@ def primal_dual():
                 # WARNING: potential numerical issues
                 next_sets += [i]
         
-        # TEST next sets
-        print("t_next_set: ", t_next_set)
-        print("next_sets: ", next_sets)
+        # # TEST next sets
+        # print("t_next_set: ", t_next_set)
+        # print("next_sets: ", next_sets)
                 
         # compute next edge event
         t_next_edge = INF
@@ -96,14 +104,18 @@ def primal_dual():
             elif t == t_next_edge:
                 next_edges += [(u,v)]
     
-        # TEST next edges
-        print("t_next_Edge: ", t_next_edge)
-        print("next_edges: ", next_edges)
+        # # TEST next edges
+        # print("t_next_Edge: ", t_next_edge)
+        # print("next_edges: ", next_edges)
+
+        # no more events
+        if t_next_set==INF and t_next_edge==INF:
+            break
     
         # set event
         if t_next_set < t_next_edge:
-            # TEST enter set event
-            print("enter set event")
+            # # TEST enter set event
+            # print("enter set event")
             
             # update order matters here            
             # update residual graph
@@ -133,9 +145,9 @@ def primal_dual():
                 num_active = num_active - 1
                  
         #edge event
-        elif t_next_set > t_next_edge:
-            # TEST enter edge event
-            print("enter edge event")
+        elif t_next_set >= t_next_edge:
+            # # TEST enter edge event
+            # print("enter edge event")
             
             # update order matters here            
             # update residual graph
@@ -200,22 +212,14 @@ def primal_dual():
         # tie break!
         else:
             # TEST enter tie break
+            # WARNING: temporarilt prioritized set events
             print("enter tie break")
-            return
+            continue
 
-    print_comp_list()
+    #print_comp_list(idx, comp_list)
+    #plot_comp_list(idx, comp_list)
+    
+    return idx, comp_list
         
 
 # TEST
-plot_graph(G)
-
-primal_dual()
-
-H = nx.Graph()
-for i in range(len(comp_list)):
-    comp = comp_list[i]
-    if i != idx[list(comp.nodes)[0]]:
-        continue
-    
-    H = nx.disjoint_union(H, comp_list[i])
-plot_graph(H)
