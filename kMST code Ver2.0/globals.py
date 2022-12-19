@@ -13,7 +13,7 @@ EPS = 1.0e-10
 INF = 1.0e10
 
 # import from test files
-G = tests.middle1()
+G = tests.greedy1()
 
 # # random graph with n vertices and m edges
 # G = nx.gnm_random_graph(10, 15)
