@@ -223,3 +223,8 @@ def primal_dual(lamb):
         
 
 # TEST
+idx, comp_list = primal_dual(1.9999)
+plot_comp_list(idx, comp_list)
+
+idx, comp_list = primal_dual(2.0)
+plot_comp_list(idx, comp_list)
