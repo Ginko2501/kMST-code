@@ -83,6 +83,19 @@ def middle1():
     G.add_edge(4,7,weight=1)
     return G
 
-def prune1():
+# 9 vertices and 8 edges
+def greedy1():
     G = nx.Graph()
+    for i in range(9):
+        G.add_node(i)
+        
+    G.add_edge(1,2,weight=100)
+    G.add_edge(2,3,weight=1)
+    G.add_edge(2,4,weight=1)
+    G.add_edge(2,5,weight=1)
+    G.add_edge(1,6,weight=1)
+    G.add_edge(6,7,weight=99)
+    G.add_edge(6,8,weight=99)
+    G.add_edge(6,9,weight=99)
+    
     
