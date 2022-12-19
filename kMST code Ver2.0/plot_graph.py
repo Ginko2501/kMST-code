@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def plot_graph(G):
     # get node positions
     # set seed for reproducibility
-    pos = nx.spring_layout(G, seed=1)
+    pos = nx.spring_layout(G, seed=3)
 
     # draw nodes
     nx.draw_networkx_nodes(G, pos, node_size=150)

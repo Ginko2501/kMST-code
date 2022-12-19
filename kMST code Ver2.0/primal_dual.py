@@ -5,8 +5,8 @@ def print_comp_list(idx, comp_list):
     # print the adj list of current components
     for i in range(len(comp_list)):
         comp = comp_list[i]
-        # if i != idx[list(comp.nodes)[0]]:
-        #     continue
+        if i != idx[list(comp.nodes)[0]]:
+            continue
         component.print_comp(comp)
         print()
 
@@ -44,8 +44,8 @@ def primal_dual(lamb):
     num_active = len(G)
     while num_active != 0:
         # TEST component list
-        # print_comp_list(idx, comp_list)
-        # plot_comp_list(idx, comp_list)
+        print_comp_list(idx, comp_list)
+        plot_comp_list(idx, comp_list)
         
         # compute next set event
         t_next_set = INF
@@ -222,9 +222,10 @@ def primal_dual(lamb):
     return idx, comp_list
         
 
-# TEST
-idx, comp_list = primal_dual(1.9999)
-plot_comp_list(idx, comp_list)
+# # TEST
+# idx, comp_list = primal_dual(1.9999)
+# plot_comp_list(idx, comp_list)
 
-idx, comp_list = primal_dual(2.0)
-plot_comp_list(idx, comp_list)
+# idx, comp_list = primal_dual(2.0)
+# plot_comp_list(idx, comp_list)
+idx, comp_list = primal_dual(2)

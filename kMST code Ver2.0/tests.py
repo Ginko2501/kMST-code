@@ -89,13 +89,13 @@ def greedy1():
     for i in range(9):
         G.add_node(i)
         
-    G.add_edge(1,2,weight=100)
+    G.add_edge(1,2,weight=10)
     G.add_edge(2,3,weight=1)
     G.add_edge(2,4,weight=1)
     G.add_edge(2,5,weight=1)
     G.add_edge(1,6,weight=1)
-    G.add_edge(6,7,weight=99)
-    G.add_edge(6,8,weight=99)
-    G.add_edge(6,9,weight=99)
+    G.add_edge(6,7,weight=9)
+    G.add_edge(6,8,weight=9)
+    G.add_edge(6,9,weight=9)
     
-    
+    return G
